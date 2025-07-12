@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <title>Product Manager</title>
+  </head>
+  <body>
+    <div class="container">
+
+      <form id="form">
+        <h2>Add New Product</h2>
+        <label>Product Name</label>
+        <input type="text" name="name" placeholder="Enter product name" />
+
+        <label>Price</label>
+        <input type="number" name="price" placeholder="0.00" step="0.01" />
+
+        <label>Product Image</label>
+        <input type="file" name="image" accept="image/*" id="select-img" />
+        <img src="" alt="Preview" class="preview" />
+
+        <button type="submit" class="submit-btn">Add Product</button>
+      </form>
+
+      <div class="product-container">
+        <div class="header">
+          <h2>Products</h2>
+          <a href="/cart.html"><i class="fa-solid fa-cart-plus"></i></a>
+          <input type="text" placeholder="Search" id="search">
+         
+        </div>
+        <div class="products-grid">
+          
+        </div>
+      </div>
+
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
