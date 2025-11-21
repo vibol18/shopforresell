@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product Detail</title>
+  <link rel="stylesheet" href="product-detail.css" />
+</head>
+<body>
+
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to Products</a>
+
+    <div id="product-detail" class="product-detail">
+      <!-- Product detail content will be injected here -->
+    </div>
+  </div>
+
+  <script type="module">
+    import { products } from './products.js';
+
+    // Function to get URL parameter
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    function showProductDetail(productId) {
+      const container = document.getElementById('product-detail');
+      const product = products.find(p => p.id === Number(productId));
+
+      if (!product) {
+        container.innerHTML = "<p>Product not found.</p>";
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="detail-card">
+          <img src="${product.image}" alt="${product.name}" class="product-image" />
+          <div class="detail-info">
+            <h1>${product.name}</h1>
+            <p class="price">$${product.price}</p>
+            <p class="description">${product.description}</p>
+            <button id="add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('add-to-cart').addEventListener('click', () => {
+        alert(`Added to cart: ${product.name}`);
+        // Here you can add logic to add product to cart/localStorage
+      });
+    }
+
+    window.onload = () => {
+      const id = getQueryParam('id');
+      showProductDetail(id);
+    };
+  </script>
+
+</body>
+</html>

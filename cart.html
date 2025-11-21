@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      background: #f3f3f3;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    header {
+      background: #fff;
+      padding: 20px 50px;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 28px;
+      color: #4caf50;
+    }
+
+    .cart-container {
+      max-width: 1000px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .cart-title {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: auto;
+      margin-right: 20px;
+    }
+
+    .item-info {
+      flex: 2;
+      display: flex;
+      align-items: center;
+    }
+
+    .item-details h4 {
+      margin: 0;
+    }
+
+    .item-quantity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .item-quantity button {
+      background: #4caf50;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .cart-summary {
+      text-align: right;
+      margin-top: 30px;
+    }
+
+    .cart-summary h3 {
+      margin-bottom: 15px;
+    }
+
+    .checkout-btn {
+      background: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .empty-message {
+      text-align: center;
+      font-size: 18px;
+      padding: 30px 0;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h2 class="logo">Your Cart</h2>
+    <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Shop</a>
+  </header>
+
+  <!-- Cart Section -->
+  <div class="cart-container">
+    <h3 class="cart-title">Items in Your Cart</h3>
+    <div class="cart-items" id="cart-items">
+      <!-- Dynamic cart items will be added here -->
+    </div>
+
+    <div class="cart-summary" id="cart-summary">
+      <!-- Total and checkout will appear here -->
+    </div>
+  </div>
+
+  <script>
+    // Load cart from localStorage (simulate cart items)
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const cartItemsContainer = document.getElementById("cart-items");
+    const cartSummary = document.getElementById("cart-summary");
+
+    function renderCart() {
+      cartItemsContainer.innerHTML = "";
+      cartSummary.innerHTML = "";
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = `<div class="empty-message">Your cart is empty 🛒</div>`;
+        return;
+      }
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+        cartItemsContainer.innerHTML += `
+          <div class="cart-item">
+            <div class="item-info">
+              <img src="${item.image}" alt="${item.name}">
+              <div class="item-details">
+                <h4>${item.name}</h4>
+                <p>$${item.price.toFixed(2)}</p>
+              </div>
+            </div>
+            <div class="item-quantity">
+              <button onclick="changeQty(${index}, -1)">−</button>
+              <span>${item.quantity}</span>
+              <button onclick="changeQty(${index}, 1)">+</button>
+            </div>
+            <div class="item-price">
+              $${(item.price * item.quantity).toFixed(2)}
+            </div>
+          </div>
+        `;
+      });
+
+      cartSummary.innerHTML = `
+        <h3>Total: $${total.toFixed(2)}</h3>
+        <button class="checkout-btn">Proceed to Checkout</button>
+      `;
+    }
+
+    function changeQty(index, change) {
+      cart[index].quantity += change;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>
